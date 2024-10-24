@@ -55,3 +55,36 @@ type ActionResult struct {
 	OaRpcCost   int    `json:"_oa_rpc_cost"`
 	WithLatency int    `json:"withLatency"`
 }
+
+type GetPropReq struct {
+	Did  string `json:"did"`
+	Siid int    `json:"siid"`
+	Piid int    `json:"piid"`
+}
+
+type GetPropResult struct {
+	Code       int    `json:"code"`
+	Did        string `json:"did"`
+	ExeTime    int    `json:"exe_time"`
+	Iid        string `json:"iid"`
+	Siid       int    `json:"siid"`
+	Piid       int    `json:"piid"`
+	UpdateTime int    `json:"updateTime"`
+	Value      any    `json:"value"`
+}
+
+type SetPropReq struct {
+	Did   string `json:"did"`
+	Siid  int    `json:"siid"`
+	Piid  int    `json:"piid"`
+	Value any    `json:"value"`
+}
+
+type SetPropResult struct {
+	Code    int    `json:"code"`
+	Did     string `json:"did"`
+	ExeTime int    `json:"exe_time"`
+	Iid     string `json:"iid"`
+	Siid    int    `json:"siid"`
+	Piid    int    `json:"piid"`
+}

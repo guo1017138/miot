@@ -17,3 +17,31 @@ func Action(action ActionDetail) (ActionResult, error) {
 		"params": action,
 	})
 }
+
+func GetProp(req GetPropReq) (GetPropResult, error) {
+	results, err := GetProps([]GetPropReq{req})
+	if err != nil {
+		return results[0], err
+	}
+	return GetPropResult{}, err
+}
+
+func GetProps(req []GetPropReq) ([]GetPropResult, error) {
+	return apis.SignAppPost[[]GetPropResult](consts.SID_XIAOMIIO, "/miotspec/prop/get", map[string]any{
+		"params": req,
+	})
+}
+
+func SetProp(req SetPropReq) (SetPropResult, error) {
+	results, err := SetProps([]SetPropReq{req})
+	if err != nil {
+		return results[0], err
+	}
+	return SetPropResult{}, err
+}
+
+func SetProps(req []SetPropReq) ([]SetPropResult, error) {
+	return apis.SignAppPost[[]SetPropResult](consts.SID_XIAOMIIO, "/miotspec/prop/set", map[string]any{
+		"params": req,
+	})
+}

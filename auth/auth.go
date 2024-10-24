@@ -5,11 +5,12 @@ import (
 	"encoding/base64"
 	"errors"
 	"fmt"
+	"net/url"
+
 	"github.com/luanruisong/miot/consts"
 	"github.com/luanruisong/miot/internal/apis"
 	"github.com/luanruisong/miot/internal/token"
 	"github.com/luanruisong/miot/internal/utils"
-	"net/url"
 )
 
 func Login(sid, user, pass string) error {
@@ -31,6 +32,9 @@ func Login(sid, user, pass string) error {
 		ret, err = serverLoginAuth(ret, user, pass)
 		if err != nil {
 			return err
+		}
+		if ret.Code != 0 {
+			return fmt.Errorf(ret.Desc)
 		}
 	}
 	tk := token.GetToken()
