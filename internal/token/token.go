@@ -2,11 +2,12 @@ package token
 
 import (
 	"errors"
+	"os"
+	"path"
+
 	jsoniter "github.com/json-iterator/go"
 	"github.com/luanruisong/miot/consts"
 	"github.com/luanruisong/miot/internal/utils"
-	"os"
-	"path"
 )
 
 type SubToken struct {
@@ -60,6 +61,10 @@ func GetToken() *Token {
 		}
 	}
 	return _tks
+}
+
+func ResetToken() {
+	_tks = nil
 }
 
 func filePath() string {

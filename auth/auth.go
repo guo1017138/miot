@@ -14,6 +14,7 @@ import (
 )
 
 func Login(sid, user, pass string) error {
+	token.ResetToken() // clear old token in case user changed
 	resp, err := apis.AuthReq().SetQueryParams(map[string]string{
 		"sid":   sid,
 		"_json": "true",

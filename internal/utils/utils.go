@@ -4,18 +4,18 @@ import (
 	"bytes"
 	"crypto/md5"
 	"encoding/hex"
-	"fmt"
-	jsoniter "github.com/json-iterator/go"
 	"math/rand"
 	"os"
 	"strings"
+
+	jsoniter "github.com/json-iterator/go"
 )
 
 func SRand(length int) string {
 	b := make([]rune, length)
 	for i := range b {
 		b[i] = rune(rand.Intn(26) + 65)
-		fmt.Println(b[i], string(b))
+		// fmt.Println(b[i], string(b))
 	}
 	return string(b)
 }
