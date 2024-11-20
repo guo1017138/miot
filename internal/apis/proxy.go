@@ -2,21 +2,14 @@ package apis
 
 import (
 	"fmt"
-	"github.com/go-resty/resty/v2"
-	"github.com/luanruisong/miot/consts"
-	"github.com/luanruisong/miot/internal/token"
 	"net/http"
 	"net/url"
 	"path"
-)
 
-var (
-	req *resty.Client
+	"github.com/go-resty/resty/v2"
+	"github.com/luanruisong/miot/consts"
+	"github.com/luanruisong/miot/internal/token"
 )
-
-func init() {
-	req = resty.New()
-}
 
 func AuthReq() *resty.Request {
 	app := token.GetToken()
@@ -39,6 +32,7 @@ func AuthReq() *resty.Request {
 	header := map[string]string{
 		"User-Agent": "APP/com.xiaomi.mihome APPV/6.0.103 iosPassportSDK/3.9.0 iOS/14.4 miHSTS",
 	}
+	req := resty.New()
 	return req.R().SetCookies(cookies).SetHeaders(header)
 }
 
@@ -61,6 +55,7 @@ func AppReq(sid string) *resty.Request {
 		"User-Agent":                 "APP/com.xiaomi.mihome APPV/6.0.103 iosPassportSDK/3.9.0 iOS/14.4 miHSTS",
 		"x-xiaomi-protocal-flag-cli": "PROTOCAL-HTTP2",
 	}
+	req := resty.New()
 	return req.R().SetCookies(cookies).SetHeaders(header)
 }
 
