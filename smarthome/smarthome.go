@@ -1,7 +1,7 @@
 package smarthome
 
 import (
-	"fmt"
+	"encoding/json"
 
 	"github.com/luanruisong/miot/consts"
 	"github.com/luanruisong/miot/internal/apis"
@@ -33,11 +33,16 @@ import (
  * @param {number} params.uid 要查询的用户id 。可选参数
  * @returns {Promise}
  */
-func GetDeviceData(req GetDeviceDataReq) (GetDeviceDataResult, error) {
-	fmt.Printf(" %+v\n", req)
-	return apis.SignAppPost[GetDeviceDataResult](consts.SID_XIAOMIIO, "/user/get_user_device_data", map[string]any{
-		"params": req,
-	})
+func GetDeviceData(req GetDeviceDataReq) (resp []GetDeviceDataResult, err error) {
+	r, err := apis.SignAppPost[[]GetDeviceDataResult](consts.SID_XIAOMIIO, "/user/get_user_device_data", req)
+	if err != nil {
+		return resp, err
+	}
+	for _, v := range r {
+		json.Unmarshal([]byte(v.Value), &(v.Values))
+		resp = append(resp, v)
+	}
+	return resp, err
 }
 
 /*

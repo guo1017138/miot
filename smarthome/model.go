@@ -11,7 +11,19 @@ type GetDeviceDataReq struct {
 	Uid       int64  `json:"uid,omitempty"`   // 要查询的用户id 。可选参数
 }
 
+type GetDeviceDataResultValue struct {
+	Piid  int   `json:"piid"`
+	Value int64 `json:"value"`
+}
+
 type GetDeviceDataResult struct {
+	Did    string                     `json:"did"`
+	Uid    string                     `json:"uid"`
+	Type   string                     `json:"type"`
+	Value  string                     `json:"value"`
+	Time   int64                      `json:"time"`
+	Key    string                     `json:"key"`
+	Values []GetDeviceDataResultValue `json:"values"`
 }
 
 type GetUserStatisticsReq struct {

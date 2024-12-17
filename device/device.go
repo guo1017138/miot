@@ -7,8 +7,12 @@ import (
 
 func List(getVirtualModel bool, getHuamiDevices int) (DeviceListResult, error) {
 	return apis.SignAppPost[DeviceListResult](consts.SID_XIAOMIIO, "/home/device_list", map[string]any{
-		"getVirtualModel": getVirtualModel,
-		"getHuamiDevices": getHuamiDevices,
+		"getVirtualModel":    getVirtualModel,
+		"getHuamiDevices":    getHuamiDevices,
+		"get_split_device":   true,
+		"support_smart_home": true,
+		"get_cariot_device":  true,
+		"get_third_device":   true,
 	})
 }
 
