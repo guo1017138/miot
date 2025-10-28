@@ -2,10 +2,16 @@ package auth
 
 import (
 	"fmt"
-	"github.com/luanruisong/miot/consts"
 	"testing"
+
+	"github.com/luanruisong/miot/consts"
 )
 
 func TestLogin(t *testing.T) {
-	fmt.Println(Login(consts.SID_XIAOMIIO, "user", "pass"), "====")
+	info := ServiceLoginReq{
+		Sid:      consts.SID_XIAOMIIO,
+		Username: "user",
+		Password: "pass",
+	}
+	fmt.Println(Login(info), "====")
 }

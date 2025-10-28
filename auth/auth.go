@@ -13,10 +13,10 @@ import (
 	"github.com/luanruisong/miot/internal/utils"
 )
 
-func Login(sid, user, pass string) error {
+func Login(info ServiceLoginReq) error {
 	token.ResetToken() // clear old token in case user changed
 	resp, err := apis.AuthReq().SetQueryParams(map[string]string{
-		"sid":   sid,
+		"sid":   info.Sid,
 		"_json": "true",
 	}).Get(apis.AuthURI("/pass/serviceLogin"))
 	if err != nil {
@@ -29,8 +29,16 @@ func Login(sid, user, pass string) error {
 	if err != nil {
 		return err
 	}
+	tk := token.GetToken()
 	if ret.Code != 0 {
-		ret, err = serverLoginAuth(ret, user, pass)
+		// if passtoken set, use passtoken login
+		if info.UserId != 0 && info.DeviceId != "" && info.PassToken != "" {
+			fmt.Printf("$$$$$$$$$$$$$$$$$$$: %+v\n", info)
+			tk.UserId = info.UserId
+			tk.DeviceId = info.DeviceId
+			tk.PassToken = info.PassToken
+		}
+		ret, err = serverLoginAuth(ret, info.Username, info.Password)
 		if err != nil {
 			return err
 		}
@@ -38,14 +46,13 @@ func Login(sid, user, pass string) error {
 			return fmt.Errorf(ret.Desc)
 		}
 	}
-	tk := token.GetToken()
 	tk.UserId = ret.UserId
 	tk.PassToken = ret.PassToken
 	serviceToken, err := generateServiceToken(ret.Location, ret.Nonce, ret.Ssecurity)
 	if err != nil {
 		return err
 	}
-	return tk.SetSubToken(sid, ret.Ssecurity, serviceToken).Sync()
+	return tk.SetSubToken(info.Sid, ret.Ssecurity, serviceToken).Sync()
 }
 
 func serverLoginAuth(req ServiceLoginRet, user, pass string) (ServiceLoginRet, error) {
@@ -96,7 +103,12 @@ func AutoLogin(sid string) error {
 		if err = consts.CheckEnv(); err != nil {
 			return err
 		}
-		return Login(sid, consts.GetUser(), consts.GetPass())
+		info := ServiceLoginReq{
+			Sid:      sid,
+			Username: consts.GetUser(),
+			Password: consts.GetPass(),
+		}
+		return Login(info)
 	}
 	return nil
 }

@@ -1,5 +1,14 @@
 package auth
 
+type ServiceLoginReq struct {
+	Sid       string `json:"sid"`
+	Username  string `json:"username"`
+	Password  string `json:"password"`
+	UserId    int    `json:"user_id"`
+	DeviceId  string `json:"device_id"`
+	PassToken string `json:"passToken"`
+}
+
 type ServiceLoginRet struct {
 	Code      int    `json:"code"`
 	Desc      string `json:"desc"`
